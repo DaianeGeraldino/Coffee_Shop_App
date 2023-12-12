@@ -1,7 +1,18 @@
+import React, {useState} from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { useStore } from '../store/store';
 
 const HomeScreen = () => {
+  const CoffeeList = useStore((state: any) => state.CoffeeList)
+  const BeanList = useStore((state: any) => state.BeanList)
+
+  const [categories, setCategories] = useState([undefined]);
+  const [searchText, setSearchText] = useState(undefined);
+  const [categoryIndex, setCategoryIndex] = useState({
+    index:0,
+    category: categories[0],
+  });
+
   return (
     <View>
       <Text>HomeScreen</Text>

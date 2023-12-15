@@ -3,6 +3,7 @@ import { ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native'
 import { useStore } from '../store/store';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { COLORS } from '../theme/theme';
+import HeaderBar from '../components/HeaderBar';
 
 
 const getCategoriesFromData = (data: any) => {
@@ -47,7 +48,12 @@ const HomeScreen = () => {
 
   return <View style={styles.ScreenContainer}>
     <StatusBar backgroundColor={COLORS.primaryBlackHex}/>
-    <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.ScrollViewFlex}></ScrollView>
+    <ScrollView
+    showsVerticalScrollIndicator={false}
+    contentContainerStyle={styles.ScrollViewFlex}>
+      {/* App Header */}
+      <HeaderBar/>
+    </ScrollView>
   </View>;
 
 };
@@ -58,7 +64,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primaryBlackHex,
   },
   ScrollViewFlex: {
-    flex
+    flexGrow: 1,
   }
 })
 

@@ -1,7 +1,21 @@
-import React from 'react'
-import { Dimensions, ImageBackground, ImageProps, StyleSheet, Text, Touchable, TouchableOpacity, View } from 'react-native'
+import React from 'react';
+import {
+  Dimensions,
+  ImageBackground,
+  ImageProps,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { BORDERRADIUS, COLORS, FONTFAMILY, FONTSIZE, SPACING } from '../theme/theme';
+import {
+  BORDERRADIUS,
+  COLORS,
+  FONTFAMILY,
+  FONTSIZE,
+  SPACING,
+} from '../theme/theme';
 import CustomIcon from './CustomIcon';
 import BGIcon from './BGIcon';
 
@@ -11,7 +25,7 @@ interface CoffeeCardProps {
   id: string;
   index: number;
   type: string;
-  rosted: string;
+  roasted: string;
   imagelink_square: ImageProps;
   name: string;
   special_ingredient: string;
@@ -24,7 +38,7 @@ const CoffeeCard: React.FC<CoffeeCardProps> = ({
   id,
   index,
   type,
-  rosted,
+  roasted,
   imagelink_square,
   name,
   special_ingredient,
@@ -34,45 +48,58 @@ const CoffeeCard: React.FC<CoffeeCardProps> = ({
 }) => {
   return (
     <LinearGradient
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 1 }}
-      style={styles.CardLinearGrandientContainer}
+      start={{x: 0, y: 0}}
+      end={{x: 1, y: 1}}
+      style={styles.CardLinearGradientContainer}
       colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}>
       <ImageBackground
         source={imagelink_square}
         style={styles.CardImageBG}
-        resizeMode='cover'>
+        resizeMode="cover">
         <View style={styles.CardRatingContainer}>
           <CustomIcon
             name={'star'}
             color={COLORS.primaryOrangeHex}
-            size={FONTSIZE.size_18}
+            size={FONTSIZE.size_16}
           />
           <Text style={styles.CardRatingText}>{average_rating}</Text>
         </View>
       </ImageBackground>
-      <Text>{name}</Text>
-      <Text>{special_ingredient}</Text>
+      <Text style={styles.CardTitle}>{name}</Text>
+      <Text style={styles.CardSubtitle}>{special_ingredient}</Text>
       <View style={styles.CardFooterRow}>
-        <Text>
-          $ <Text>{price.price}</Text>
+        <Text style={styles.CardPriceCurrency}>
+          $ <Text style={styles.CardPrice}>{price.price}</Text>
         </Text>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            buttonPressHandler({
+              id,
+              index,
+              type,
+              roasted,
+              imagelink_square,
+              name,
+              special_ingredient,
+              prices: [{...price, quantity: 1}],
+            });
+          }}>
           <BGIcon
             color={COLORS.primaryWhiteHex}
             name={'add'}
             BGColor={COLORS.primaryOrangeHex}
-            size= {FONTSIZE.size_10}
+            size={FONTSIZE.size_10}
           />
         </TouchableOpacity>
       </View>
     </LinearGradient>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
-  CardLinearGrandientContainer: {
-
+  CardLinearGradientContainer: {
+    padding: SPACING.space_15,
+    borderRadius: BORDERRADIUS.radius_25,
   },
   CardImageBG: {
     width: CARD_WIDTH,
@@ -90,9 +117,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: SPACING.space_15,
     position: 'absolute',
     borderBottomLeftRadius: BORDERRADIUS.radius_20,
-    borderTopRightRadius: BORDERRADIUS.radius_20,  
+    borderTopRightRadius: BORDERRADIUS.radius_20,
     top: 0,
-    right: 0,  
+    right: 0,
   },
   CardRatingText: {
     fontFamily: FONTFAMILY.poppins_medium,
@@ -100,10 +127,30 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     fontSize: FONTSIZE.size_14,
   },
-
+  CardTitle: {
+    fontFamily: FONTFAMILY.poppins_medium,
+    color: COLORS.primaryWhiteHex,
+    fontSize: FONTSIZE.size_16,
+  },
+  CardSubtitle: {
+    fontFamily: FONTFAMILY.poppins_light,
+    color: COLORS.primaryWhiteHex,
+    fontSize: FONTSIZE.size_10,
+  },
   CardFooterRow: {
-
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: SPACING.space_15,
+  },
+  CardPriceCurrency: {
+    fontFamily: FONTFAMILY.poppins_semibold,
+    color: COLORS.primaryOrangeHex,
+    fontSize: FONTSIZE.size_18,
+  },
+  CardPrice: {
+    color: COLORS.primaryWhiteHex,
   },
 });
 
-export default CoffeeCard
+export default CoffeeCard;
